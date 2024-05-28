@@ -1,9 +1,7 @@
 package com.kakaopaysec.liverankapi.config;
 
 import com.kakaopaysec.liverankapi.common.CommonUtils;
-import com.kakaopaysec.liverankapi.domain.repository.StockDetailsRepository;
 import com.kakaopaysec.liverankapi.domain.repository.StockItemsRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

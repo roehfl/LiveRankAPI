@@ -37,9 +37,8 @@ public class DataInitializer {
                                 String code = csv.get("code");
                                 String name = csv.get("name");
                                 int price = Integer.parseInt(csv.get("price"));
-                                int previousPrice = price;
                                 int hitCount = commonUtils.generateRandomInt(1, 100000000, 1);
-                                int volume = commonUtils.generateRandomInt(1, 1000000000, 1);;
+                                int volume = commonUtils.generateRandomInt(1, 1000000000, 1);
 
                                 StockItems stockItems = new StockItems();
                                 StockDetails stockDetails = new StockDetails();
@@ -47,7 +46,7 @@ public class DataInitializer {
                                 stockItems.setCode(code);
                                 stockItems.setName(name);
                                 stockDetails.setPrice(price);
-                                stockDetails.setPreviousPrice(previousPrice);
+                                stockDetails.setPreviousPrice(price);
                                 stockDetails.setVolume(volume);
                                 stockDetails.setHitCount(hitCount);
                                 stockItems.setStockDetails(stockDetails);
