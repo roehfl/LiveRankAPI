@@ -3,7 +3,6 @@ package com.kakaopaysec.liverankapi.config;
 import com.kakaopaysec.liverankapi.common.CommonUtils;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetails;
 import com.kakaopaysec.liverankapi.domain.entity.StockItems;
-import com.kakaopaysec.liverankapi.domain.repository.StockDetailsRepository;
 import com.kakaopaysec.liverankapi.domain.repository.StockItemsRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -13,9 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
