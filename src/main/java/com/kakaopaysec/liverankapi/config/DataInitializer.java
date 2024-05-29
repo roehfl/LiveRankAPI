@@ -1,58 +1,64 @@
 package com.kakaopaysec.liverankapi.config;
 
 import com.kakaopaysec.liverankapi.common.CommonUtils;
-import com.kakaopaysec.liverankapi.domain.entity.StockDetails;
-import com.kakaopaysec.liverankapi.domain.entity.StockItems;
-import com.kakaopaysec.liverankapi.domain.repository.StockItemsRepository;
+import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
+import com.kakaopaysec.liverankapi.domain.entity.StockItem;
+import com.kakaopaysec.liverankapi.domain.repository.StockDetailRepository;
+import com.kakaopaysec.liverankapi.domain.repository.StockItemRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import reactor.core.publisher.Flux;
 
 import java.io.*;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Configuration
 public class DataInitializer {
 
-    private final StockItemsRepository stockItemsRepository;
+    private final StockItemRepository stockItemRepository;
+    private final StockDetailRepository stockDetailRepository;
     private final CommonUtils commonUtils;
 
-    public DataInitializer(StockItemsRepository stockItemsRepository, CommonUtils commonUtils) {
-        this.stockItemsRepository = stockItemsRepository;
+    public DataInitializer(StockItemRepository stockItemRepository, StockDetailRepository stockDetailRepository, CommonUtils commonUtils) {
+        this.stockItemRepository = stockItemRepository;
+        this.stockDetailRepository = stockDetailRepository;
         this.commonUtils = commonUtils;
     }
 
     @Bean
     public CommandLineRunner loadData() {
         return args -> {
-            List<StockItems> stockItemsList =
-                    StreamSupport.stream(csvParser().spliterator(), false).
-                            map(csv -> {
-                                long id = Long.parseLong(csv.get("id"));
-                                String code = csv.get("code");
-                                String name = csv.get("name");
-                                int price = Integer.parseInt(csv.get("price"));
-                                int hitCount = commonUtils.generateRandomInt(1, 100000000, 1);
-                                int volume = commonUtils.generateRandomInt(1, 1000000000, 1);
+            for (CSVRecord csvRecord : csvParser()) {
+                long id = Long.parseLong(csvRecord.get("id"));
+                String code = csvRecord.get("code");
+                String name = csvRecord.get("name");
+                int price = Integer.parseInt(csvRecord.get("price"));
+                int hitCount = commonUtils.generateRandomInt(1, 100000000, 1);
+                int volume = commonUtils.generateRandomInt(1, 1000000000, 1);
 
-                                StockItems stockItems = new StockItems();
-                                StockDetails stockDetails = new StockDetails();
-                                stockItems.setId(id);
-                                stockItems.setCode(code);
-                                stockItems.setName(name);
-                                stockDetails.setPrice(price);
-                                stockDetails.setPreviousPrice(price);
-                                stockDetails.setVolume(volume);
-                                stockDetails.setHitCount(hitCount);
-                                stockItems.setStockDetails(stockDetails);
-                                return stockItems;
-                            }).collect(Collectors.toList());
-            stockItemsRepository.saveAll(stockItemsList);
+                StockItem stockItem = StockItem.builder()
+                                        .id(id)
+                                        .code(code)
+                                        .name(name)
+                                        .build();
+
+                StockDetail stockDetail = StockDetail.builder()
+                        .price(price)
+                        .previousPrice(price)
+                        .volume(volume)
+                        .hitCount(hitCount)
+                        .itemId(id)
+                        .build();
+
+                stockItemRepository.save(stockItem);
+                stockDetailRepository.save(stockDetail);
+            }
         };
     }
 

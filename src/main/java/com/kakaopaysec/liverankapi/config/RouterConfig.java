@@ -7,14 +7,15 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
 public class RouterConfig {
 
-//    @Bean
-//    public RouterFunction<ServerResponse> routeFunction(APIHandler handler) {
-//        return route(GET("/api/hello"), handler::hello)
-//                .andRoute(GET("/api/goodbye"), handler::goodbye);
-//    }
+    @Bean
+    public RouterFunction<ServerResponse> routeFunction(APIHandler handler) {
+        return route(GET("/stock/ranking"), handler::getStockRanking)
+                .andRoute(POST("/stock/details"), handler::updateStockDetails);
+    }
 }

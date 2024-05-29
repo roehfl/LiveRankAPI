@@ -10,7 +10,4 @@ spring:
     password: password
   jpa:
     hibernate:
-      ddl-auto: update
-  h2:
-    console:
-      enabled: true
+      ddl-auto: create
