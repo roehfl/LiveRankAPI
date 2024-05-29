@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class StockItem {
     @Id
     private Long id;

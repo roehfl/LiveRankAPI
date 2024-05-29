@@ -38,11 +38,14 @@ public class APIServiceImpl implements APIService{
     }
 
     private StockDetail processStockDetails(StockDetail stockDetail) {
-        return StockDetail.builder()
-                        .previousPrice(stockDetail.getPrice())
-                        .price(commonUtils.generateRandomInt(stockDetail.getPrice(), (int) (stockDetail.getPrice() * 1.3), commonUtils.getTickSize(stockDetail.getPrice())))
-                        .volume(commonUtils.generateRandomInt(1, 1000000000, 1))
-                        .hitCount(commonUtils.generateRandomInt(1, 100000000, 1))
-                        .build();
+        StockDetail detail = StockDetail.builder()
+                .id(stockDetail.getId())
+                .itemId(stockDetail.getItemId())
+                .previousPrice(stockDetail.getPrice())
+                .price(commonUtils.generateRandomInt(stockDetail.getPrice(), (int) (stockDetail.getPrice() * 1.3), commonUtils.getTickSize(stockDetail.getPrice())))
+                .volume(commonUtils.generateRandomInt(1, 1000000000, 1))
+                .hitCount(commonUtils.generateRandomInt(1, 100000000, 1))
+                .build();
+        return detail;
     }
 }

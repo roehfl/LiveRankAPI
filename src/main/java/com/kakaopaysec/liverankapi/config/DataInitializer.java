@@ -35,7 +35,7 @@ public class DataInitializer {
     public CommandLineRunner loadData() {
         return args -> {
             for (CSVRecord csvRecord : csvParser()) {
-                long id = Long.parseLong(csvRecord.get("id"));
+//                long id = Long.parseLong(csvRecord.get("id"));
                 String code = csvRecord.get("code");
                 String name = csvRecord.get("name");
                 int price = Integer.parseInt(csvRecord.get("price"));
@@ -43,21 +43,21 @@ public class DataInitializer {
                 int volume = commonUtils.generateRandomInt(1, 1000000000, 1);
 
                 StockItem stockItem = StockItem.builder()
-                                        .id(id)
                                         .code(code)
                                         .name(name)
                                         .build();
 
-                StockDetail stockDetail = StockDetail.builder()
-                        .price(price)
-                        .previousPrice(price)
-                        .volume(volume)
-                        .hitCount(hitCount)
-                        .itemId(id)
-                        .build();
-
-                stockItemRepository.save(stockItem);
-                stockDetailRepository.save(stockDetail);
+                stockItemRepository.save(stockItem)
+                        .flatMap(item -> {
+                            StockDetail stockDetail = StockDetail.builder()
+                                    .price(price)
+                                    .previousPrice(price)
+                                    .volume(volume)
+                                    .hitCount(hitCount)
+                                    .itemId(item.getId())
+                                    .build();
+                            return stockDetailRepository.save(stockDetail);
+                        }).subscribe();
             }
         };
     }

@@ -3,11 +3,7 @@ server:
 spring:
   application:
     name: LiveRankAPI
-  datasource:
-    url: jdbc:h2:mem:LiveRankDB
-    driverClassName: org.h2.Driver
-    userName: admin
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: create
+  r2dbc:
+    name: sa
+    password:
+    url: r2dbc:h2:mem:///LiveRankDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
