@@ -7,6 +7,8 @@ CREATE TABLE stock_item (
 CREATE TABLE stock_detail (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                        price INT NOT NULL,
+                       price_diff INT NOT NULL,
+                       price_diff_percentage DOUBLE NOT NULL,
                        previous_price INT NOT NULL,
                        hit_count INT NOT NULL,
                        volume INT NOT NULL,

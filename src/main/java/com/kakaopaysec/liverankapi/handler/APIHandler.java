@@ -1,10 +1,11 @@
 package com.kakaopaysec.liverankapi.handler;
 
-import com.kakaopaysec.liverankapi.domain.dto.GetStockInfoParamsDTO;
 import com.kakaopaysec.liverankapi.domain.dto.StockInfoDTO;
+import com.kakaopaysec.liverankapi.domain.dto.StockRankParamsDTO;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.service.APIService;
 import org.h2.tools.Server;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -23,12 +24,20 @@ public class APIHandler {
     }
 
     public Mono<ServerResponse> getStockRanking(ServerRequest request) {
-        Mono<GetStockInfoParamsDTO> paramsDTOMono = request.bodyToMono(GetStockInfoParamsDTO.class);
-        return paramsDTOMono.flatMap(params ->
-                ServerResponse.ok()
-                        .contentType(APPLICATION_JSON)
-                        .body(apiService.getStockInfos(params), StockInfoDTO.class)
-                );
+        String tag = request.queryParam("tag").orElseThrow();
+        int pageNumber = request.queryParam("pageNumber").map(Integer::parseInt).orElse(0);
+        int pageSize = request.queryParam("pageSize").map(Integer::parseInt).orElse(10);
+        Sort.Direction sortOrder = Sort.Direction.valueOf(request.queryParam("sortOrder").orElse("DESC"));
+
+        StockRankParamsDTO params = StockRankParamsDTO.builder()
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .tag(tag)
+                .sortOrder(sortOrder)
+                .build();
+        return ServerResponse.ok()
+                .contentType(APPLICATION_JSON)
+                .body(apiService.getStockInfos(params), StockInfoDTO.class);
     }
 
     public Mono<ServerResponse> updateStockDetails(ServerRequest request) {
