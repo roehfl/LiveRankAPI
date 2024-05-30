@@ -9,4 +9,5 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface StockItemRepository extends ReactiveCrudRepository<StockItem, Long> {
+
 }

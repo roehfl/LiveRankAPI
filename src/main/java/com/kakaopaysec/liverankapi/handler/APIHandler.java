@@ -1,7 +1,10 @@
 package com.kakaopaysec.liverankapi.handler;
 
+import com.kakaopaysec.liverankapi.domain.dto.GetStockInfoParamsDTO;
+import com.kakaopaysec.liverankapi.domain.dto.StockInfoDTO;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.service.APIService;
+import org.h2.tools.Server;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -20,10 +23,12 @@ public class APIHandler {
     }
 
     public Mono<ServerResponse> getStockRanking(ServerRequest request) {
-        Mono<String> slogan = Mono.just("CodeCouple roxx!");
-        return ServerResponse.ok()
-                .contentType(APPLICATION_JSON)
-                .body(slogan, String.class);
+        Mono<GetStockInfoParamsDTO> paramsDTOMono = request.bodyToMono(GetStockInfoParamsDTO.class);
+        return paramsDTOMono.flatMap(params ->
+                ServerResponse.ok()
+                        .contentType(APPLICATION_JSON)
+                        .body(apiService.getStockInfos(params), StockInfoDTO.class)
+                );
     }
 
     public Mono<ServerResponse> updateStockDetails(ServerRequest request) {
