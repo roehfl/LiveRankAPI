@@ -1,4 +1,4 @@
-package com.kakaopaysec.liverankapi.domain.dto;
+package com.kakaopaysec.liverankapi.dto;
 
 import lombok.Builder;
 import lombok.Getter;

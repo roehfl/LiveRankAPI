@@ -1,15 +1,10 @@
 package com.kakaopaysec.liverankapi.domain.repository;
 
-import com.kakaopaysec.liverankapi.domain.dto.StockInfoDTO;
-import org.springframework.data.domain.Pageable;
+import com.kakaopaysec.liverankapi.dto.StockInfoDTO;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
-import org.springframework.data.relational.core.sql.SqlIdentifier;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
-
-import java.util.Map;
 
 @Repository
 public class StockRankRepositoryImpl implements StockRankRepository {

@@ -1,7 +1,6 @@
 package com.kakaopaysec.liverankapi.domain.repository;
 
-import com.kakaopaysec.liverankapi.domain.dto.StockInfoDTO;
-import org.springframework.data.domain.Pageable;
+import com.kakaopaysec.liverankapi.dto.StockInfoDTO;
 import org.springframework.data.domain.Sort;
 import reactor.core.publisher.Flux;
 

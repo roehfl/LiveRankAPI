@@ -1,8 +1,8 @@
 package com.kakaopaysec.liverankapi.service;
 
 import com.kakaopaysec.liverankapi.common.CommonUtils;
-import com.kakaopaysec.liverankapi.domain.dto.StockInfoDTO;
-import com.kakaopaysec.liverankapi.domain.dto.StockRankParamsDTO;
+import com.kakaopaysec.liverankapi.dto.StockInfoDTO;
+import com.kakaopaysec.liverankapi.dto.StockRankParamsDTO;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.domain.repository.StockDetailRepository;
 import com.kakaopaysec.liverankapi.domain.repository.StockRankRepository;
@@ -11,10 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class APIServiceImpl implements APIService{
