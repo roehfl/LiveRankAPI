@@ -9,6 +9,5 @@ import org.springframework.data.domain.Sort;
 public class StockRankParamsDTO {
     private int pageNumber;
     private int pageSize;
-    private String tag;
-    private Sort.Direction sortOrder;
+    private int tag;
 }

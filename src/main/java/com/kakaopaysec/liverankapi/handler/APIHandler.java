@@ -4,6 +4,7 @@ import com.kakaopaysec.liverankapi.dto.StockInfoDTO;
 import com.kakaopaysec.liverankapi.dto.StockRankParamsDTO;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.service.APIService;
+import com.kakaopaysec.liverankapi.validator.StockRankParamsValidator;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -21,17 +22,7 @@ public class APIHandler {
     }
 
     public Mono<ServerResponse> getStockRanking(ServerRequest request) {
-        String tag = request.queryParam("tag").orElseThrow();
-        int pageNumber = request.queryParam("pageNumber").map(Integer::parseInt).orElse(0);
-        int pageSize = request.queryParam("pageSize").map(Integer::parseInt).orElse(10);
-        Sort.Direction sortOrder = Sort.Direction.valueOf(request.queryParam("sortOrder").orElse("DESC"));
-
-        StockRankParamsDTO params = StockRankParamsDTO.builder()
-                .pageNumber(pageNumber)
-                .pageSize(pageSize)
-                .tag(tag)
-                .sortOrder(sortOrder)
-                .build();
+        StockRankParamsDTO params = createAndValidateParams(request);
         return ServerResponse.ok()
                 .contentType(APPLICATION_JSON)
                 .body(apiService.getStockInfos(params), StockInfoDTO.class);
@@ -43,4 +34,19 @@ public class APIHandler {
                 .body(apiService.updateStockDetails(), StockDetail.class);
     }
 
+    private StockRankParamsDTO createAndValidateParams(ServerRequest request) {
+        int tag = request.queryParam("tag").map(Integer::parseInt).orElse(1);
+        int pageNumber = request.queryParam("pageNumber").map(Integer::parseInt).orElse(0);
+        int pageSize = request.queryParam("pageSize").map(Integer::parseInt).orElse(10);
+
+        StockRankParamsDTO params = StockRankParamsDTO.builder()
+                .pageNumber(pageNumber)
+                .pageSize(pageSize)
+                .tag(tag)
+                .build();
+
+        StockRankParamsValidator.validate(params);
+
+        return params;
+    }
 }

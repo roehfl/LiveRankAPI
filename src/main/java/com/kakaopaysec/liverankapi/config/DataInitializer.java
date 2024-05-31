@@ -12,11 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import reactor.core.publisher.Flux;
-
 import java.io.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Configuration
 public class DataInitializer {
@@ -35,7 +31,6 @@ public class DataInitializer {
     public CommandLineRunner loadData() {
         return args -> {
             for (CSVRecord csvRecord : csvParser()) {
-//                long id = Long.parseLong(csvRecord.get("id"));
                 String code = csvRecord.get("code");
                 String name = csvRecord.get("name");
                 int price = Integer.parseInt(csvRecord.get("price"));

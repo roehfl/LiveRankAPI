@@ -27,6 +27,7 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.9.0'
     implementation 'io.r2dbc:r2dbc-h2'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.8.0'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'

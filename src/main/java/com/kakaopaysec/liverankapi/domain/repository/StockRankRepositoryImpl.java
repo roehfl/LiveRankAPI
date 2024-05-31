@@ -1,7 +1,6 @@
 package com.kakaopaysec.liverankapi.domain.repository;
 
 import com.kakaopaysec.liverankapi.dto.StockInfoDTO;
-import org.springframework.data.domain.Sort;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
@@ -15,8 +14,8 @@ public class StockRankRepositoryImpl implements StockRankRepository {
     }
 
     @Override
-    public Flux<StockInfoDTO> findAllWithPagingAndSorting(int pageNumber, int pageSize, String tag, Sort.Direction sortOrder) {
-        String query = buildQuery(tag, sortOrder, pageNumber, pageSize);
+    public Flux<StockInfoDTO> findAllWithPagingAndSorting(int pageNumber, int pageSize, int tag) {
+        String query = buildQuery(tag, pageNumber, pageSize);
         return databaseClient.sql(query)
                 .map((row, metadata) -> StockInfoDTO.builder()
                         .code(row.get("code", String.class))
@@ -31,11 +30,30 @@ public class StockRankRepositoryImpl implements StockRankRepository {
                 .all();
     }
 
-    //아.... order by에 price_diff_percent가 안먹는다 데이터로 저장해야겠다
-    private String buildQuery(String tag, Sort.Direction sortOrder, int page, int size) {
+    private String buildQuery(int tag, int page, int size) {
+        String sortOrder = "";
+        String orderBy = "";
+
+        switch (tag) {
+            case 1:
+                orderBy = "hit_count";
+                sortOrder = "DESC";
+                break;
+            case 2:
+                orderBy = "price_diff_percentage";
+                sortOrder = "DESC";
+                break;
+            case 3:
+                orderBy = "price_diff_percentage";
+                sortOrder = "ASC";
+                break;
+            case 4:
+                orderBy = "volume";
+                sortOrder = "DESC";
+        }
         return "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                 "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
-                "ORDER BY " + tag + " " + sortOrder.toString() +
+                "ORDER BY " + orderBy + " " + sortOrder +
                 " LIMIT " + size + " OFFSET " + page * size;
     }
 

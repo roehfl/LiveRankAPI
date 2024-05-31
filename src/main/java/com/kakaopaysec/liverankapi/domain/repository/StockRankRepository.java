@@ -5,5 +5,5 @@ import org.springframework.data.domain.Sort;
 import reactor.core.publisher.Flux;
 
 public interface StockRankRepository {
-    Flux<StockInfoDTO> findAllWithPagingAndSorting(int pageNumber, int pageSize, String tag, Sort.Direction sortOrder);
+    Flux<StockInfoDTO> findAllWithPagingAndSorting(int pageNumber, int pageSize, int tag);
 }

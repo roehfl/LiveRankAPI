@@ -29,10 +29,8 @@ public class APIServiceImpl implements APIService{
     public Flux<StockInfoDTO> getStockInfos(StockRankParamsDTO request) {
         int pageNumber = request.getPageNumber();
         int pageSize = request.getPageSize();
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        String tag = request.getTag();
-        Sort.Direction sortOrder = request.getSortOrder();
-        return stockRankRepository.findAllWithPagingAndSorting(pageNumber, pageSize, tag, sortOrder);
+        int tag = request.getTag();
+        return stockRankRepository.findAllWithPagingAndSorting(pageNumber, pageSize, tag);
     }
 
     @Override
