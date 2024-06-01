@@ -14,7 +14,6 @@ public class StockDetail {
     @Id
     private Long id;
     private int price;
-    private int previousPrice;
     private int priceDiff;
     private double priceDiffPercentage;
     private int hitCount;

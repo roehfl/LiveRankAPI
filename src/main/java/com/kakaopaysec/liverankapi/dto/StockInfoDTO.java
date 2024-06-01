@@ -12,6 +12,5 @@ public class StockInfoDTO {
     private int price;
     private int priceDiff;
     private double priceDiffPercent;
-    private int previousPrice;
     private int hitCount;
 }

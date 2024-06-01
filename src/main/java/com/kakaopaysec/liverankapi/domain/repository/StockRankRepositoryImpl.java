@@ -22,7 +22,6 @@ public class StockRankRepositoryImpl implements StockRankRepository {
                         .name(row.get("name", String.class))
                         .price(row.get("price", Integer.class))
                         .priceDiff(row.get("price_diff", Integer.class))
-                        .previousPrice(row.get("previous_price", Integer.class))
                         .priceDiffPercent(Math.round(row.get("price_diff_percentage", Double.class) * 100.0) / 100.0)
                         .hitCount(row.get("hit_count", Integer.class))
                         .volume(row.get("volume", Integer.class)).build()
@@ -51,7 +50,7 @@ public class StockRankRepositoryImpl implements StockRankRepository {
                 orderBy = "volume";
                 sortOrder = "DESC";
         }
-        return "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
+        return "SELECT * FROM (SELECT code, name, price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                 "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
                 "ORDER BY " + orderBy + " " + sortOrder +
                 " LIMIT " + size + " OFFSET " + page * size;

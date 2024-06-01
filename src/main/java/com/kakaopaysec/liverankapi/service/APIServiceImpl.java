@@ -6,9 +6,6 @@ import com.kakaopaysec.liverankapi.dto.StockRankParamsDTO;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.domain.repository.StockDetailRepository;
 import com.kakaopaysec.liverankapi.domain.repository.StockRankRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -48,7 +45,6 @@ public class APIServiceImpl implements APIService{
         StockDetail detail = StockDetail.builder()
                 .id(stockDetail.getId())
                 .itemId(stockDetail.getItemId())
-                .previousPrice(stockDetail.getPrice())
                 .price(newPrice)
                 .priceDiff(priceDiff)
                 .priceDiffPercentage(priceDiffPercentage)
