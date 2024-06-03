@@ -1,21 +1,12 @@
 package com.kakaopaysec.liverankapi.common;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommonUtilsTest {
-    Random random;
-    CommonUtils commonUtils;
 
-    @BeforeEach
-    public void setUp() {
-        random = new Random();
-        commonUtils = new CommonUtils();
-    }
+    private final CommonUtils commonUtils = new CommonUtils();
 
     @Test
     public void testGetTickSize() {

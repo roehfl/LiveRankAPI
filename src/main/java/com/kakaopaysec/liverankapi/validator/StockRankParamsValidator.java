@@ -7,8 +7,8 @@ public class StockRankParamsValidator {
         if (!((params.getTag() >= 1 && params.getTag() <= 4))) {
             throw new IllegalArgumentException("Tag must be between 1 and 4");
         }
-        if (params.getPageNumber() < 0) {
-            throw new IllegalArgumentException("pageNumber must be greater than zero");
+        if (params.getNextOffset() < 0) {
+            throw new IllegalArgumentException("nextOffset must be greater or equal than 0");
         }
         if(params.getPageSize() <= 0) {
             throw new IllegalArgumentException("pageSize must be greater than zero");

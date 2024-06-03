@@ -24,10 +24,10 @@ public class APIServiceImpl implements APIService{
 
     @Override
     public Flux<StockInfoDTO> getStockInfos(StockRankParamsDTO request) {
-        int pageNumber = request.getPageNumber();
+        int nextOffset = request.getNextOffset();
         int pageSize = request.getPageSize();
         int tag = request.getTag();
-        return stockRankRepository.findAllWithPagingAndSorting(pageNumber, pageSize, tag);
+        return stockRankRepository.findAllWithPagingAndSorting(nextOffset, pageSize, tag);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class APIServiceImpl implements APIService{
         int priceDiff = newPrice - stockDetail.getPrice();
         double priceDiffPercentage = (double) priceDiff / (double) stockDetail.getPrice() * 100;
 
-        StockDetail detail = StockDetail.builder()
+        return StockDetail.builder()
                 .id(stockDetail.getId())
                 .itemId(stockDetail.getItemId())
                 .price(newPrice)
@@ -51,6 +51,5 @@ public class APIServiceImpl implements APIService{
                 .volume(commonUtils.generateRandomInt(1, 1000000000, 1))
                 .hitCount(commonUtils.generateRandomInt(1, 100000000, 1))
                 .build();
-        return detail;
     }
 }

@@ -9,7 +9,7 @@ public class StockRankParamsValidatorTest {
     public void validateValidParams() {
         StockRankParamsDTO validParams = StockRankParamsDTO.builder()
                 .tag(1)
-                .pageNumber(0)
+                .nextOffset(0)
                 .pageSize(30)
                 .build();
         Assertions.assertDoesNotThrow(() -> StockRankParamsValidator.validate(validParams));
@@ -31,7 +31,7 @@ public class StockRankParamsValidatorTest {
         StockRankParamsDTO inValidParamsPageNumber = StockRankParamsDTO.builder()
                 .tag(1)
                 .pageSize(10)
-                .pageNumber(-1)
+                .nextOffset(-1)
                 .build();
         Assertions.assertThrows(IllegalArgumentException.class, () -> StockRankParamsValidator.validate(inValidParamsPageNumber));
     }

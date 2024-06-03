@@ -1,7 +1,6 @@
 package com.kakaopaysec.liverankapi.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.r2dbc.spi.R2dbcException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import com.kakaopaysec.liverankapi.dto.ErrorResponse;
@@ -9,9 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 

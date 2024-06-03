@@ -24,8 +24,8 @@ public class StockRankRepositoryTest {
 
     @ParameterizedTest
     @MethodSource("provideTestCases")
-    public void testBuildQuery(int tag, int page, int size, String expected) {
-        String actual = buildQuery(tag, page, size);
+    public void testBuildQuery(int tag, int nextOffset, int size, String expected) {
+        String actual = buildQuery(tag, nextOffset, size);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -55,43 +55,45 @@ public class StockRankRepositoryTest {
                 Arguments.of(1, 0, 10, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                         "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
                         "ORDER BY hit_count DESC LIMIT 10 OFFSET 0"),
-                Arguments.of(2, 1, 15, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
+                Arguments.of(2, 100, 15, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                         "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
-                        "ORDER BY price_diff_percentage DESC LIMIT 15 OFFSET 15"),
-                Arguments.of(3, 2, 20, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
+                        "ORDER BY price_diff_percentage DESC LIMIT 15 OFFSET 100"),
+                Arguments.of(3, 0, 20, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                         "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
-                        "ORDER BY price_diff_percentage ASC LIMIT 20 OFFSET 40"),
-                Arguments.of(4, 3, 25, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
+                        "ORDER BY price_diff_percentage ASC LIMIT 20 OFFSET 0"),
+                Arguments.of(4, 30, 25, "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                         "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
-                        "ORDER BY volume DESC LIMIT 25 OFFSET 75")
+                        "ORDER BY volume DESC LIMIT 25 OFFSET 30")
         );
     }
 
-    private String buildQuery(int tag, int page, int size) {
+    private String buildQuery(int tag, int nextOffset, int size) {
         String sortOrder = "";
         String orderBy = "";
 
-        switch (tag) {
-            case 1:
+        sortOrder = switch (tag) {
+            case 1 -> {
                 orderBy = "hit_count";
-                sortOrder = "DESC";
-                break;
-            case 2:
+                yield "DESC";
+            }
+            case 2 -> {
                 orderBy = "price_diff_percentage";
-                sortOrder = "DESC";
-                break;
-            case 3:
+                yield "DESC";
+            }
+            case 3 -> {
                 orderBy = "price_diff_percentage";
-                sortOrder = "ASC";
-                break;
-            case 4:
+                yield "ASC";
+            }
+            case 4 -> {
                 orderBy = "volume";
-                sortOrder = "DESC";
-        }
+                yield "DESC";
+            }
+            default -> sortOrder;
+        };
         return "SELECT * FROM (SELECT code, name, price, previous_price, price_diff, price_diff_percentage, hit_count, volume FROM stock_item " +
                 "LEFT JOIN stock_detail ON stock_item.id = stock_detail.item_id) as temp_table " +
                 "ORDER BY " + orderBy + " " + sortOrder +
-                " LIMIT " + size + " OFFSET " + page * size;
+                " LIMIT " + size + " OFFSET " + nextOffset;
     }
 
 }

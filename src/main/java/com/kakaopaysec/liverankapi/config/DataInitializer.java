@@ -1,6 +1,5 @@
 package com.kakaopaysec.liverankapi.config;
 
-import com.kakaopaysec.liverankapi.common.CommonUtils;
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
 import com.kakaopaysec.liverankapi.domain.entity.StockItem;
 import com.kakaopaysec.liverankapi.domain.repository.StockDetailRepository;

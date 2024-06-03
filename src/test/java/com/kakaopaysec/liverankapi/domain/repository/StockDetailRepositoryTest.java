@@ -1,7 +1,6 @@
 package com.kakaopaysec.liverankapi.domain.repository;
 
 import com.kakaopaysec.liverankapi.domain.entity.StockDetail;
-import com.kakaopaysec.liverankapi.domain.entity.StockItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -35,8 +34,8 @@ public class StockDetailRepositoryTest {
         Mono<StockDetail> foundStockDetail = stockDetailRepository.findById(1L);
 
         StepVerifier.create(foundStockDetail)
-                .expectNextMatches(found -> found.getId() == stockDetail.getId() && stockDetail.getPrice() == found.getPrice()
-                        && stockDetail.getItemId() == found.getItemId() && stockDetail.getVolume() == found.getVolume() && stockDetail.getHitCount() == found.getHitCount()
+                .expectNextMatches(found -> found.getId().equals(stockDetail.getId()) && stockDetail.getPrice() == found.getPrice()
+                        && stockDetail.getItemId().equals(found.getItemId()) && stockDetail.getVolume() == found.getVolume() && stockDetail.getHitCount() == found.getHitCount()
                         && stockDetail.getPriceDiff() == found.getPriceDiff() && stockDetail.getPriceDiffPercentage() == found.getPriceDiffPercentage()
                 )
                 .verifyComplete();
